@@ -3,200 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="0; url=Code/index.html" />
     <title>Jack</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js"></script>
+    <style>
+      body {
+        display: grid;
+        min-height: 100vh;
+        margin: 0;
+        place-items: center;
+        color: #fff7df;
+        font-family: system-ui, sans-serif;
+        background: #062d1c;
+      }
+
+      a {
+        color: #f2cf74;
+      }
+    </style>
   </head>
   <body>
-    <header class="run-hud" aria-label="Run status">
-      <div class="hud-stat">Cash <strong id="cash">$200</strong></div>
-      <div class="hud-stat">Credits <strong id="credits">0</strong></div>
-      <div class="hud-stat">Bet <strong id="hud-current-bet">$0</strong></div>
-      <div class="shop-meter" aria-label="Shop progress">
-        <div class="shop-meter-top">
-          <span>Cash Until Next Shop</span>
-          <strong id="cash-until-shop">$2,500</strong>
-        </div>
-        <div class="shop-progress-track">
-          <div id="shop-progress-fill" class="shop-progress-fill"></div>
-        </div>
-      </div>
-    </header>
-
-    <main class="table" aria-label="Blackjack table">
-      <section class="hand-area dealer-area" aria-labelledby="dealer-title">
-        <div class="hand-heading">
-          <h1 id="dealer-title">Dealer</h1>
-          <span id="dealer-score" class="score-pill">Score: 0</span>
-        </div>
-        <div id="dealer-cards" class="cards" aria-live="polite"></div>
-      </section>
-
-      <section id="npc-area" class="npc-area" aria-label="Additional players"></section>
-
-      <section class="table-center" aria-label="Game controls and betting">
-        <div class="betting-hero" aria-hidden="true">
-          <p class="casino-kicker">Welcome To</p>
-          <div class="casino-title">
-            <img
-              class="title-jack-card"
-              src="../Card Images/jack_of_spades2.png"
-              alt="J"
-            />
-            <span>ack</span>
-          </div>
-          <p class="casino-subtitle">Place your bet to enter the table</p>
-        </div>
-
-        <div class="status-panel">
-          <p id="message" class="message">Place your bet to begin.</p>
-          <p id="combo-banner" class="combo-banner" aria-live="polite"></p>
-          <div class="bankroll-row">
-            <span>Cash: <strong id="bankroll">$200</strong></span>
-            <span>Credits: <strong id="table-credits">0</strong></span>
-            <span>Current Bet: <strong id="current-bet">$0</strong></span>
-          </div>
-        </div>
-
-        <div id="bet-pile" class="bet-pile" aria-label="Current bet chip pile"></div>
-        <div
-          id="opponent-bet-piles"
-          class="opponent-bet-piles"
-          aria-label="Matched opponent chip piles"
-        ></div>
-
-        <div class="chip-rack" aria-label="Betting chips">
-          <button class="chip-button" data-chip="10" aria-label="Bet 10 dollars"></button>
-          <button class="chip-button" data-chip="25" aria-label="Bet 25 dollars"></button>
-          <button class="chip-button" data-chip="50" aria-label="Bet 50 dollars"></button>
-          <button class="chip-button" data-chip="100" aria-label="Bet 100 dollars"></button>
-          <button class="chip-button" data-chip="500" aria-label="Bet 500 dollars"></button>
-        </div>
-
-        <div class="controls" aria-label="Game actions">
-          <button id="clear-bet-button" class="secondary-button" type="button">Clear Bet</button>
-          <button id="deal-button" class="primary-button" type="button">Deal</button>
-          <button id="hit-button" class="primary-button" type="button" disabled>Hit</button>
-          <button id="stand-button" class="primary-button" type="button" disabled>Stand</button>
-          <button id="new-round-button" class="secondary-button" type="button" disabled>
-            New Round
-          </button>
-        </div>
-      </section>
-
-      <section class="hand-area player-area" aria-labelledby="player-title">
-        <div class="hand-heading">
-          <h2 id="player-title">Player</h2>
-          <span id="player-score" class="score-pill">Score: 0</span>
-        </div>
-        <div id="player-cards" class="cards" aria-live="polite"></div>
-      </section>
-    </main>
-
-    <aside class="side-tabs" aria-label="Rules, statistics, and powerups">
-      <details class="side-tab">
-        <summary>Rules</summary>
-        <div class="side-tab-content">
-          <p>Hit to draw cards. Stand to end your turn. Dealer hits on 16 and stands on 17.</p>
-          <p>Aces count as 11 unless that would bust the hand, then they count as 1.</p>
-          <p>Wins pay from your Cash bet and grant Credits. Pushes lose the bet but grant 1 Credit.</p>
-          <p>Combos: Exact 21 pays 2x, Charlie pays 3x, and suited Blackjack pays 10x plus 5 Credits.</p>
-          <p>A Charlie means you win the hand while holding 4 or more cards without busting.</p>
-          <p>Jokers are 0-point support cards. If you win with a Joker, Cash income doubles. If you lose with one, your bet is protected.</p>
-          <p>Added players follow dealer rules, cannot draw Jokers, and match your chip pile.</p>
-          <p>Earn enough Cash from winning hands to open the next Shop.</p>
-        </div>
-      </details>
-
-      <details class="side-tab">
-        <summary>Statistics</summary>
-        <div class="side-tab-content stat-grid">
-          <span>Hands Played</span>
-          <strong id="stat-hands-played">0</strong>
-          <span>Money Earned</span>
-          <strong id="stat-money-earned">$0</strong>
-          <span>Money Lost</span>
-          <strong id="stat-money-lost">$0</strong>
-          <span>Hands Won</span>
-          <strong id="stat-win-percent">0%</strong>
-          <span>Charlies</span>
-          <strong id="stat-charlies">0</strong>
-          <span>Blackjacks / 21s</span>
-          <strong id="stat-blackjacks">0</strong>
-          <span>Jokers Drawn</span>
-          <strong id="stat-jokers">0</strong>
-          <span>Top Credit Score</span>
-          <strong id="stat-top-credit-score">0</strong>
-          <span>Top Credit High Score</span>
-          <strong id="stat-top-credit-high">0</strong>
-        </div>
-      </details>
-
-      <details class="side-tab">
-        <summary>Powerups</summary>
-        <div id="powerup-list" class="side-tab-content powerup-list">
-          <p>No powerups yet.</p>
-        </div>
-      </details>
-    </aside>
-
-    <section
-      id="shop-modal"
-      class="modal-backdrop hidden"
-      aria-labelledby="shop-title"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div class="modal-card shop-card">
-        <p class="modal-kicker">Shop Phase</p>
-        <h2 id="shop-title">Spend Credits</h2>
-        <p class="shop-credit-counter">Credits: <strong id="shop-credit-count">0</strong></p>
-        <p class="modal-copy">Choose upgrades for this run. Close the shop to continue playing.</p>
-        <div id="shop-options" class="shop-options"></div>
-        <button id="close-shop-button" class="primary-button" type="button">Close Shop</button>
-      </div>
-    </section>
-
-    <section
-      id="game-over-screen"
-      class="modal-backdrop hidden"
-      aria-labelledby="game-over-title"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div class="modal-card game-over-card">
-        <p class="modal-kicker">Run Ended</p>
-        <h2 id="game-over-title">Game Over</h2>
-        <p id="game-over-summary" class="modal-copy">You ran out of Cash.</p>
-        <button id="restart-run-button" class="primary-button" type="button">Restart Run</button>
-      </div>
-    </section>
-
-    <aside id="automation-panel" class="automation-panel hidden" aria-label="Automation controls">
-      <label class="auto-control hidden" id="auto-deal-control">
-        <span>Auto-Deal</span>
-        <input id="auto-deal-toggle" type="checkbox" />
-      </label>
-      <label class="auto-control hidden" id="auto-bet-control">
-        <span>Auto-Bet Size</span>
-        <input id="auto-bet-size" type="number" min="10" step="10" value="50" />
-      </label>
-      <label class="auto-control hidden" id="bot-control">
-        <span>Programmable Bot</span>
-        <input id="bot-toggle" type="checkbox" />
-      </label>
-      <label class="auto-control hidden" id="stand-target-control">
-        <span>Stand Target</span>
-        <input id="stand-target" type="number" min="12" max="21" step="1" value="17" />
-      </label>
-    </aside>
-
-    <script src="script.js"></script>
+    <p>Opening <a href="Code/index.html">Jack</a>...</p>
   </body>
 </html>
